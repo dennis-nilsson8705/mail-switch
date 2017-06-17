@@ -29,6 +29,12 @@ namespace SpaChallApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+                {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+                }));
             services.AddMvc();
             services.AddOptions();
             services.Configure<EmailConfig>(Configuration.GetSection("EmailConfig"));
@@ -39,6 +45,7 @@ namespace SpaChallApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(); 
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }
