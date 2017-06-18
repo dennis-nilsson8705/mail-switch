@@ -1,5 +1,5 @@
-To build and run, execute dotnet run from app root directory
+1. Modify appsettings.json email configuration settings. The current settings will only allow sending from and to my own addresses.
 
-Email service provider configuration may be modified in appsettings.json
+2. Execute dotnet restore
 
-
+3. Execute dotnet run
