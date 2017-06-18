@@ -49,18 +49,22 @@ public class MailClient{
          return response;
     }
 
-    //Created FormUrlEncodedContent from incoming email object
-    public FormUrlEncodedContent EmailContentCreator(IEmail email){
- 
-        return new FormUrlEncodedContent(new[]
+    //Create email content and allowing no bcc/cc 
+     public FormUrlEncodedContent EmailContentCreator(IEmail email){
+        
+        var namevaluecollection = new[]
             {
                 new KeyValuePair<string, string>("from", email.Sender),
-                new KeyValuePair<string, string>("to", email.Recipients ),
-                new KeyValuePair<string, string>("bcc", email.BccList),
-                new KeyValuePair<string, string>("cc", email.CCList ),
+                new KeyValuePair<string, string>("to", email.Recipients),
                 new KeyValuePair<string, string>("subject", email.Subject),
                 new KeyValuePair<string, string>("text", email.Content)
-            });
+            };
+            if(email.BccList != "")
+                namevaluecollection.Append(new KeyValuePair<string, string>("bcc", email.BccList));
+            if(email.CCList != "")
+                namevaluecollection.Append(new KeyValuePair<string, string>("cc", email.CCList ));
+
+        return new FormUrlEncodedContent(namevaluecollection);
     }
 }
 }
